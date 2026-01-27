@@ -125,12 +125,31 @@ else:
     img_tensor = np.zeros((1, target_size[0], target_size[1], 3), dtype=np.float32)
 
 # --- 8. PREDICCIÓN ---
-riesgo = 0
+# ==========================================
+# 🛑 ZONA DE INSPECCIÓN (DEBUG)
+# ==========================================
+st.write("--- 🕵️‍♂️ INSPECTOR DE DATOS ---")
+
+# 1. Muestra qué datos numéricos están entrando al modelo
+st.write("📊 Datos Tabulares Crudos:", tabular_data)
+
+# 2. Comprueba si hay NaNs (Agujeros negros en los datos)
+import numpy as np
 try:
-    if "Multimodal" in nombre_modelo_sel: pred = modelo_activo.predict([img_tensor, vector_numerico], verbose=0)
-    else: pred = modelo_activo.predict(img_tensor, verbose=0)
-    riesgo = float(pred[0][0]) * 100
-except: pass
+    hay_nans = np.isnan(tabular_data).any()
+    if hay_nans:
+        st.error("🚨 ALERTA: ¡Hay valores NaN (vacíos) entrando al modelo!")
+    else:
+        st.success("✅ Los datos numéricos parecen sanos (No hay NaNs).")
+except Exception as e:
+    st.error(f"Error al comprobar NaNs: {e}")
+
+# 3. Muestra la versión de scikit-learn que está usando Render
+import sklearn
+st.write(f"📦 Versión de Scikit-learn en Render: {sklearn.__version__}")
+# ==========================================
+
+
 
 # --- 9. VISUALIZACIÓN ---
 st.write("")
