@@ -1,3 +1,15 @@
-__pycache__
-.env
-.learn
+# Ignorar bases de datos gigantes
+*.sqlite
+*.db
+*.pkl
+effis_layer.db
+modelo_incendios_inteligente.pkl
+
+# Ignorar carpetas de datos pesados
+data/raw/
+src/dataset_*.csv
+
+# Ignorar archivos temporales de Python
+__pycache__/
+*.pyc
+
